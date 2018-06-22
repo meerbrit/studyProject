@@ -75,17 +75,6 @@ num_lines=1;
 partinfo=inputdlg(prompt,dlg_title);
 
 %% Create a directory for each participant to save the log files 
-mkdir(strcat('log/Sub_',char(partinfo(1)),'_', char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)))); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
-log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)), '/'); %specifies where the log file (with the button presses) is going to be saved
-
-%% Define button mode
-if mod(char(partinfo(1)), 2) == 0  %even numbered participant ID
-      TP_pic=imread('pics/left.png'); %load (left correct) button press cue
-else %if part.no. is even
-    TP_pic=imread('pics/right.png'); %load (right correct) button press cue
-end
-
-%% Grammar mode settings
 grammar= strcat(char(partinfo(2))); %defines which of the grammars should be learned correctly
 gram_mode=strcat(char(partinfo(3))); %defines the set for the correct grammar
 ungram_mode=strcat(char(partinfo(4))); %defines the set for the incorrect grammar
@@ -93,6 +82,16 @@ ungram_mode=strcat(char(partinfo(4))); %defines the set for the incorrect gramma
 noGrammar = 2; %the ungrammatical grammar type
 if grammar == 2
     noGrammar = 1;
+end
+
+mkdir(strcat('log/Sub_',char(partinfo(1)),'_', char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)))); %creates a directory for each participant, e.g. 'Sub_01_A'
+log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)), '/'); %specifies where the log file (with the button presses) is going to be saved
+
+%% Define button mode
+if mod(char(partinfo(1)), 2) == 0  %even numbered participant ID
+      TP_pic=imread('pics/left.png'); %load (left correct) button press cue
+else %if part.no. is even
+    TP_pic=imread('pics/right.png'); %load (right correct) button press cue
 end
 
 %% load instruction file
@@ -153,6 +152,7 @@ LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
+%1-8
 TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle);
 testCount = testCount+numTestSentPerTrial;
 
@@ -160,6 +160,7 @@ testCount = testCount+numTestSentPerTrial;
 LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 2 - correct grammar
+%9-16
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial), win, pa_handle);
 testCount = testCount+numTestSentPerTrial;
 
@@ -167,6 +168,7 @@ testCount = testCount+numTestSentPerTrial;
 LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 3 - correct grammar
+%17-24
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial), win, pa_handle);
 testCount = testCount+numTestSentPerTrial;
 
@@ -174,6 +176,7 @@ testCount = testCount+numTestSentPerTrial;
 LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 4 - correct grammar
+%25-32
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial), win, pa_handle);
 testCount= 1; %reset testcount for next block
 
@@ -184,6 +187,7 @@ showInstructions(win, instructions2);
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 1 - incorrect grammar
+%1-8
 TP2 = testPhase(TP2, testCount, numTestSentPerTrial, win, pa_handle);
 testCount = testCount+numTestSentPerTrial;
 
@@ -191,6 +195,7 @@ testCount = testCount+numTestSentPerTrial;
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 2 - incorrect grammar
+%9-16
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial), win, pa_handle);
 testCount = testCount+numTestSentPerTrial;
 
@@ -198,6 +203,7 @@ testCount = testCount+numTestSentPerTrial;
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 3 - incorrect grammar
+%17-24
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial), win, pa_handle);
 testCount = testCount+numTestSentPerTrial;
 
@@ -205,6 +211,7 @@ testCount = testCount+numTestSentPerTrial;
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 4 - incorrect grammar
+%25-32
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial), win, pa_handle);
 clear testCount;
 
