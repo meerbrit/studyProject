@@ -16,7 +16,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         trigger_3_1=LP(k).trig_3_1;
         trigger_3_2=LP(k).trig_3_2;
         %A1
-        PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_1_1),'_'))); % loads data into buffer, first syllable from the LP structure above 
+        PsychPortAudio('FillBuffer', pa_handle, eval((strcat(LP(k).syll_1_1),'_'))); % loads data into buffer, first syllable from the LP structure above 
         LP(k).s11_start=toc; %saves timing of sound play to a new column (s1_start) in the log file
         ppdev_mex('Write', 1, trigger_1_1); %writes the trigger as specified in LP(k).trig1 (e.g. 5)
         WaitSecs(0.005); %very short duration of the trigger (as we want one exact point in time)
@@ -24,7 +24,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         PsychPortAudio('Start', pa_handle, 1); %starts sound immediatley
         PsychPortAudio('Stop', pa_handle, 1); %plays sound till the end of the sound file, make sure you do not have any silences at the end!!
         %A2
-        PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_1_2),'_'))); %second syllable
+        PsychPortAudio('FillBuffer', pa_handle, eval(LP(k).syll_1_2)); %second syllable
         LP(k).s12_start=toc;
         ppdev_mex('Write', 1, trigger_1_2);
         WaitSecs(0.005);
@@ -32,7 +32,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
         %X1
-        PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_2_1),'_'))); %third syllable
+        PsychPortAudio('FillBuffer', pa_handle, eval(LP(k).syll_2_1)); %third syllable
         LP(k).s21_start=toc;
         ppdev_mex('Write', 1, trigger_2_1);
         WaitSecs(0.005);
@@ -40,7 +40,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
         %X2
-        PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_2_2),'_'))); %fourth syllable
+        PsychPortAudio('FillBuffer', pa_handle, eval(LP(k).syll_2_2)); %fourth syllable
         LP(k).s22_start=toc;
         ppdev_mex('Write', 1, trigger_2_2);
         WaitSecs(0.005);
@@ -48,7 +48,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
         %B1
-        PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_3_1),'_'))); %fifth syllable
+        PsychPortAudio('FillBuffer', pa_handle, eval(LP(k).syll_3_1)); %fifth syllable
         LP(k).s31_start=toc;
         ppdev_mex('Write', 1, trigger_3_1);
         WaitSecs(0.005);
@@ -56,7 +56,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
         %B2
-        PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_3_2),'_'))); %sixth syllable
+        PsychPortAudio('FillBuffer', pa_handle, eval(LP(k).syll_3_2)); %sixth syllable
         LP(k).s32_start=toc;
         ppdev_mex('Write', 1, trigger_3_2);
         WaitSecs(0.005);

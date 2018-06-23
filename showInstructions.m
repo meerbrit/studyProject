@@ -4,4 +4,4 @@ function [] = showInstructions(win, instructions)
     KbWait; % waiting for keyboard press
     KbReleaseWait; % KbWait could interfere with the key pressing of the response
 
-    clear instructions  %not needed anymore, just to make room
+    clear instructions;  %not needed anymore, just to make room
