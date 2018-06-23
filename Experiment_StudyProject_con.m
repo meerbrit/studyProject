@@ -1,13 +1,15 @@
 %% %%Experiment script for Study Project "Study Project: 
 %The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials
 %Two blocks containing 4 learning and 4 testing phases
+%This setting reads out the condition modes from a specified file depending
+%on particiant ID
 
-clear all %clears all variables
-close all %closes all windows
+clear all; %clears all variables
+close all; %closes all windows
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
 
-%mex ppdev_mex.c -v %needed for triggers
+%mex ppdev_mex.c -v; %needed for triggers
 
 %% 
 %%Load sound files 
@@ -65,36 +67,56 @@ su_=transpose(psychwavread('wavs/su.wav'));
 pu_=transpose(psychwavread('wavs/pu.wav'));
 %}
 %%Load mat sound file (collection of all syllables)
-load sounds.mat
+load sounds.mat;
+
+%% Load the condition file for automatic mode selection
+ %{
+[~,~,raw]=xlsread('xls/Conditions.xlsx', 1, '', 'basic');  
+    for k=1:30
+        Conditions(k).cg=cell2mat(raw(k,1)); %correct grammar
+        Conditions(k).cg_LP=char(raw(k,2)); %correct grammar, LP mode
+        Conditions(k).cg_TP=char(raw(k,3)); %correct grammar, TP mode
+        Conditions(k).icg_LP=char(raw(k,4)); %incorrect grammar, LP mode
+        Conditions(k).icg_TP=char(raw(k,5));%incorrect grammar, TP mode
+        Conditions(k).btn_mode=cell2mat(raw(k,6)); %btn mode: 0= left btn correct
+    end
+    clear raw;
+    %}
+
+%load condition config
+load conditions.mat;
 
 %% The initial prompt to enter all important participant info, correct grammar to learn and mode
-prompt={'Participant ID: ', 'Correct Grammar: ', 'Correct Grammar List:', 'Incorrect Grammar List:'}; %Enter participant ID (always two digits!!) and mode
+prompt={'Participant ID: '}; %Enter participant ID (always two digits!!)
 dlg_title='Participant Info';
 num_lines=1;
 partinfo=inputdlg(prompt,dlg_title);
 
-%% Create a directory for each participant to save the log files 
-mkdir(strcat('log/Sub_',char(partinfo(1)),'_', char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)))); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
-log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)), '/'); %specifies where the log file (with the button presses) is going to be saved
+%% Define modes depending on participant ID
+part_ID =str2double(partinfo(1));
+c_grammar= Conditions(part_ID).cg;
+cg_LP = Conditions(part_ID).cg_LP;
+cg_TP = Conditions(part_ID).cg_TP;
+ic_grammar = 2;
+ic_grammar(c_grammar == 2) = 1;
+icg_LP = Conditions(part_ID).icg_LP;
+icg_TP = Conditions(part_ID).icg_TP;
+btn_mode = Conditions(part_ID).btn_mode;
 
-%% Define button mode
-if mod(char(partinfo(1)), 2) == 0  %even numbered participant ID
+%Set button mode and load correct gfx
+if btn_mode == 0  
       TP_pic=imread('pics/left.png'); %load (left correct) button press cue
       correct_btn = 'left';
-else %if part.no. is even
+else %
     TP_pic=imread('pics/right.png'); %load (right correct) button press cue
     correct_btn = 'right';
 end
 
-%% Grammar mode settings
-grammar= strcat(char(partinfo(2))); %defines which of the grammars should be learned correctly
-gram_mode=upper(strcat(char(partinfo(3)))); %defines the set for the correct grammar, make sure its capital
-ungram_mode=upper(strcat(char(partinfo(4)))); %defines the set for the incorrect grammar, make sure its capital
-% define which grammar is going to be ungrammatical 
-noGrammar = 2; %the ungrammatical grammar type
-if grammar == 2
-    noGrammar = 1;
-end
+%% Create a directory for each participant to save the log files 
+dir_name = strcat('log/Sub_',char(partinfo(1)),'_',num2str(c_grammar),char(cg_LP),char(cg_TP),'_',char(icg_LP),char(icg_TP));
+disp(dir_name);
+mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
+log_folder = strcat(dir_name, '/'); %specifies where the log file (with the button presses) is going to be saved
 
 %% load instruction file
 instructions=fileread('txt/instructions.txt'); %loads text from text file and saves it as variable instructions
@@ -112,25 +134,21 @@ numTestTrials = 4* numTestSentPerTrial;
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file
 basic = 'basic'; %for machines not having excel installed
 %basic = '';
-LP1 = createStructureFromXLS(strcat('xls/G',num2str(grammar),'_LP_', gram_mode,'.xlsx'), basic, numLearnTrials);
-LP2 = createStructureFromXLS(strcat('xls/G',num2str(noGrammar),'_LP_', ungram_mode,'.xlsx'), basic, numLearnTrials);
+LP1 = createStructureFromXLS(strcat('xls/G',num2str(c_grammar),'_LP_', cg_LP,'.xlsx'), basic, numLearnTrials);
+LP2 = createStructureFromXLS(strcat('xls/G',num2str(ic_grammar),'_LP_', icg_LP,'.xlsx'), basic, numLearnTrials);
 
 %% %% Import lists for TEST PHASES
-%TODO: which test phase to use- balancing!
-testModeGram= 'A';
-testMode(gram_mode == 'A')='B';
-
-TP1 = createStructureFromXLS(strcat('xls/G',num2str(grammar),'_TP_', testMode,'.xlsx'), basic, numTestTrials);
-TP2 = createStructureFromXLS(strcat('xls/G',num2str(noGrammar),'_TP_', testMode,'.xlsx'), basic, numTestTrials);
+TP1 = createStructureFromXLS(strcat('xls/G',num2str(c_grammar),'_TP_', cg_TP,'.xlsx'), basic, numTestTrials);
+TP2 = createStructureFromXLS(strcat('xls/G',num2str(ic_grammar),'_TP_', icg_TP,'.xlsx'), basic, numTestTrials);
 
 %% %% Open the experiment screen
-tic %starts measuring time (important if you want reaction times for the button presses)
+tic; %starts measuring time (important if you want reaction times for the button presses)
 % define screen called "win" main screen window (0), color, on screen coordinates of window (full screen)
 win= Screen('OpenWindow',0,[158 158 158], [0 0 1960 1020]); 
 Priority(MaxPriority(win)); %window always in foreground
 HideCursor(); %hides cursor during experiment
 Screen('Preference', 'TextRenderer', 1); %uses high definition text renderer
-Screen('TextSize', win, 48); %specifies font size
+Screen('TextSize', win, 40); %specifies font size
 Screen('TextFont', win, 'Arial'); %specifies font
 Screen('TextStyle', win, 0); %Specifies text color (0=black)
 
@@ -215,14 +233,16 @@ PsychPortAudio('Close', pa_handle);% Close the audio device
 ppdev_mex('Close', 1); %Close the parallel port for sending triggers
 ppdev_mex('CloseAll');
 
-DrawFormattedText(win, 'Das Experiment ist beendet \n \n Danke, dass Du teilgenommen hast!', 'center', 'center', 0); %flush screen buffer with text
+DrawFormattedText(win, 'Das Experiment ist beendet. \n \n Danke, dass Du teilgenommen hast!', 'center', 'center', 0); %flush screen buffer with text
 Screen(win,'flip'); %display text in window
 KbWait; % waiting for keyboard 
 KbReleaseWait;
 WaitSecs(3);
 
 Screen('CloseAll'); %closes the screen
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_LP1'), 'LP1');  %% save the log file for LP
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_TP1'), 'TP1');  %% save the log file for TP
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_LP2'), 'LP2'); 
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_TP2'), 'TP2');
+
+%% Save the results in previously created folder
+save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
+save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP
+save(strcat(log_folder, 'LP2'), 'LP2'); 
+save(strcat(log_folder, 'TP2'), 'TP2');
