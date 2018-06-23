@@ -1,5 +1,6 @@
 function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
-    DrawFormattedText(win, 'TESTPHASE', 'center', 'center', [0 0 0]); % Indicate beginning of first TP
+    infoText= 'TESTPHASE \n \n Entscheide bitte jeweils per Knopfdruck, ob der Satz grammatikalisch korrekt oder inkorrekt ist';
+    DrawFormattedText(win, infoText, 'center', 'center', [0 0 0]); % Indicate beginning of first TP
     Screen(win, 'flip');
     KbWait; % waiting for keyboard 
     KbReleaseWait;
@@ -8,9 +9,6 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
     WaitSecs(1);
 
     % Reads the n items from the previously defined TP structure array 
-    display(startT);
-    display(stopT);
-    disp('-----------------------');
     for t=startT:stopT
         %Defining trigger names for log file
         trigger_1_1=TP(t).trig_1_1;
@@ -27,7 +25,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1); %starts sound immediatley
-        PsychPortAudio('Stop', pa_handle, 1)
+        PsychPortAudio('Stop', pa_handle, 1);
         %A2
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((TP(t).syll_1_2),'_'))); %second syllable
         TP(t).s12_start=toc; 
@@ -35,7 +33,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
-        PsychPortAudio('Stop', pa_handle, 1)
+        PsychPortAudio('Stop', pa_handle, 1);
         %B1
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((TP(t).syll_2_1),'_'))); %third syllable
         TP(t).s21_start=toc; 
@@ -43,7 +41,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
-        PsychPortAudio('Stop', pa_handle, 1)
+        PsychPortAudio('Stop', pa_handle, 1);
         %B2
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((TP(t).syll_2_2),'_'))); %fourth syllable
         TP(t).s22_start=toc; 
@@ -51,7 +49,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
-        PsychPortAudio('Stop', pa_handle, 1)
+        PsychPortAudio('Stop', pa_handle, 1);
         %C1
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((TP(t).syll_3_1),'_'))); %fifth syllable
         TP(t).s31_start=toc; 
@@ -59,7 +57,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
-        PsychPortAudio('Stop', pa_handle, 1)
+        PsychPortAudio('Stop', pa_handle, 1);
         %C2
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((TP(t).syll_3_2),'_'))); %sixth syllable
         TP(t).s32_start=toc; 
@@ -67,7 +65,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
-        PsychPortAudio('Stop', pa_handle, 1)
+        PsychPortAudio('Stop', pa_handle, 1);
 
         Screen('DrawTexture', win, texture); % loads correct, incorrect sign on the screen to indicate button press
         startRW = Screen(win,'flip'); %collect time of start response window

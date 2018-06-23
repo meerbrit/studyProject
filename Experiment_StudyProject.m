@@ -2,12 +2,12 @@
 %The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials
 %Two blocks containing 4 learning and 4 testing phases
 
-clear all %clears all variables
-close all %closes all windows
+clear all; %clears all variables
+close all; %closes all windows
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
 
-%mex ppdev_mex.c -v %needed for triggers
+%mex ppdev_mex.c -v; %needed for triggers
 
 %% 
 %%Load sound files 
@@ -65,7 +65,7 @@ su_=transpose(psychwavread('wavs/su.wav'));
 pu_=transpose(psychwavread('wavs/pu.wav'));
 %}
 %%Load mat sound file (collection of all syllables)
-load sounds.mat
+load sounds.mat;
 
 %% The initial prompt to enter all important participant info, correct grammar to learn and mode
 prompt={'Participant ID: ', 'Correct Grammar: ', 'Correct Grammar List:', 'Incorrect Grammar List:'}; %Enter participant ID (always two digits!!) and mode
@@ -103,10 +103,10 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 %% specify the number of trials, sentences, phases
 % 40 sentences in learning phases
 numLearnTrials = 40;
-%numLearnTrials = 3; %DEBUG
+numLearnTrials = 3; %DEBUG
 % 4*8 sentences in test phase
 numTestSentPerTrial = 8;
-%numTestSentPerTrial = 2; %DEBUG
+numTestSentPerTrial = 2; %DEBUG
 numTestTrials = 4* numTestSentPerTrial;
 
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file
@@ -124,13 +124,13 @@ TP1 = createStructureFromXLS(strcat('xls/G',num2str(grammar),'_TP_', testMode,'.
 TP2 = createStructureFromXLS(strcat('xls/G',num2str(noGrammar),'_TP_', testMode,'.xlsx'), basic, numTestTrials);
 
 %% %% Open the experiment screen
-tic %starts measuring time (important if you want reaction times for the button presses)
+tic; %starts measuring time (important if you want reaction times for the button presses)
 % define screen called "win" main screen window (0), color, on screen coordinates of window (full screen)
 win= Screen('OpenWindow',0,[158 158 158], [0 0 1960 1020]); 
 Priority(MaxPriority(win)); %window always in foreground
 HideCursor(); %hides cursor during experiment
 Screen('Preference', 'TextRenderer', 1); %uses high definition text renderer
-Screen('TextSize', win, 48); %specifies font size
+Screen('TextSize', win, 40); %specifies font size
 Screen('TextFont', win, 'Arial'); %specifies font
 Screen('TextStyle', win, 0); %Specifies text color (0=black)
 
@@ -222,6 +222,8 @@ KbReleaseWait;
 WaitSecs(3);
 
 Screen('CloseAll'); %closes the screen
+
+%% Save the results in previously created folder
 save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
 save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP
 save(strcat(log_folder, 'LP2'), 'LP2'); 
