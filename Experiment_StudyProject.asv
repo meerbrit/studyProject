@@ -80,8 +80,10 @@ log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),char(part
 %% Define button mode
 if mod(char(partinfo(1)), 2) == 0  %even numbered participant ID
       TP_pic=imread('pics/left.png'); %load (left correct) button press cue
+      correct_btn = 'left';
 else %if part.no. is even
     TP_pic=imread('pics/right.png'); %load (right correct) button press cue
+    correct_btn = 'right';
 end
 
 %% Grammar mode settings
@@ -155,7 +157,6 @@ LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 testCount= 1;
 TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
-%1+2 = 3
 
 %% Begin Learning Phase 2 - correct grammar
 LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
@@ -168,14 +169,14 @@ testCount = testCount+numTestSentPerTrial;
 LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 3 - correct grammar
-TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial), win, pa_handle,texture1);
+TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - correct grammar
 LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 4 - correct grammar
-TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial), win, pa_handle,texture1);
+TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount= 1; %reset testcount for next block
 
 %% Show screen in between the two blocks
@@ -186,37 +187,27 @@ LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 1 - incorrect grammar
 TP2 = testPhase(TP2, testCount, numTestSentPerTrial, win, pa_handle,texture1);
-disp(testCount);
-disp('bis');
-disp(numTestSentPerTrial);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - incorrect grammar
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 2 - incorrect grammar
-TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial), win, pa_handle,texture1);
+TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
-disp(testCount);
-disp('bis');
-disp(numTestSentPerTrial);
+
 %% Begin Learning Phase 3 - incorrect grammar
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 3 - incorrect grammar
-TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial), win, pa_handle,texture1);
+TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
-disp(testCount);
-disp('bis');
-disp(numTestSentPerTrial);
+
 %% Begin Learning Phase 4 - incorrect grammar
 LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
 
 %% Begin Test Phase 4 - incorrect grammar
-TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial), win, pa_handle,texture1);
-disp(testCount);
-disp('bis');
-disp(numTestSentPerTrial);
+TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 clear testCount;
 
 %% End of the experiment
@@ -231,6 +222,7 @@ KbReleaseWait;
 WaitSecs(3);
 
 Screen('CloseAll'); %closes the screen
-SubID=char(SubID);
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_LP'), 'LP');  %% save the log file for LP
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_TP'), 'TP');  %% save the log file for TP
+save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_LP1'), 'LP1');  %% save the log file for LP
+save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_TP1'), 'TP1');  %% save the log file for TP
+save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_LP2'), 'LP2'); 
+save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_TP2'), 'TP2');

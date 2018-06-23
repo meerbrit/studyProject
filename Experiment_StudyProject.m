@@ -74,8 +74,8 @@ num_lines=1;
 partinfo=inputdlg(prompt,dlg_title);
 
 %% Create a directory for each participant to save the log files 
-mkdir(strcat('log/Sub_',char(partinfo(1)),'_', char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)))); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
-log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),char(partinfo(3)),'_',char(partinfo(4)), '/'); %specifies where the log file (with the button presses) is going to be saved
+mkdir(strcat('log/Sub_',char(partinfo(1)),'_', char(partinfo(2)),upper(char(partinfo(3))),'_',upper(char(partinfo(4))))); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
+log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),upper(char(partinfo(3))),'_',upper(char(partinfo(4))), '/'); %specifies where the log file (with the button presses) is going to be saved
 
 %% Define button mode
 if mod(char(partinfo(1)), 2) == 0  %even numbered participant ID
@@ -222,5 +222,7 @@ KbReleaseWait;
 WaitSecs(3);
 
 Screen('CloseAll'); %closes the screen
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_LP'), 'LP');  %% save the log file for LP
-save(strcat('sub_',partinfo(1),'\MyOutput_',partinfo(1), '_', partinfo(2),'_',partinfo(3),'_',partinfo(4), '_TP'), 'TP');  %% save the log file for TP
+save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
+save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP
+save(strcat(log_folder, 'LP2'), 'LP2'); 
+save(strcat(log_folder, 'TP2'), 'TP2');
