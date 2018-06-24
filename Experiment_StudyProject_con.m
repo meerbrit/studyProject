@@ -105,16 +105,15 @@ btn_mode = Conditions(part_ID).btn_mode;
 
 %Set button mode and load correct gfx
 if btn_mode == 0  
-      TP_pic=imread('pics/left.png'); %load (left correct) button press cue
+      [TP_pic,~,tp_alpha] =imread('pics/left.png'); %load (left correct) button press cue      
       correct_btn = 'left';
 else %
-    TP_pic=imread('pics/right.png'); %load (right correct) button press cue
+    [TP_pic,~,tp_alpha] =imread('pics/right.png'); %load (right correct) button press cue
     correct_btn = 'right';
 end
 
 %% Create a directory for each participant to save the log files 
 dir_name = strcat('log/Sub_',char(partinfo(1)),'_',num2str(c_grammar),char(cg_LP),char(cg_TP),'_',char(icg_LP),char(icg_TP));
-disp(dir_name);
 mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 log_folder = strcat(dir_name, '/'); %specifies where the log file (with the button presses) is going to be saved
 
