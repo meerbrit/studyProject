@@ -105,7 +105,7 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 numLearnTrials = 40;
 numLearnTrials = 3; %DEBUG
 % 4*8 sentences in test phase
-numTestSentPerTrial = 8;
+numTestSentPerTrial = 16;
 numTestSentPerTrial = 2; %DEBUG
 numTestTrials = 4* numTestSentPerTrial;
 
