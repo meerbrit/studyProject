@@ -1,5 +1,5 @@
-%% %%Experiment script for Study Project "Study Project: 
-%The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials
+%% %%Experiment script for Study Project
+%"The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials"
 %Two blocks containing 4 learning and 4 testing phases
 
 clear all; %clears all variables

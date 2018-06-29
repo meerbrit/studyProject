@@ -1,6 +1,6 @@
-%% %%Experiment script for Study Project
-%"The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials"
-%Two blocks containing 4 learning and 4 testing phases
+%% %%TEST Experiment script for Study Project:  WITHOUT INCORRECT GRAMMAR PART!!!
+%The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials
+%One block containing 4 learning and 4 testing phases
 
 clear all; %clears all variables
 close all; %closes all windows
@@ -150,10 +150,9 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 %% specify the number of trials, sentences, phases
 % 40 sentences in learning phases
 numLearnTrials = 40;
-numLearnTrials = 3; %DEBUG
 % 4*16 sentences in test phase
 numTestSentPerTrial = 16;
-numTestSentPerTrial = 2; %DEBUG
+numTestSentPerTrial = 2;
 numTestTrials = 4* numTestSentPerTrial;
 
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file

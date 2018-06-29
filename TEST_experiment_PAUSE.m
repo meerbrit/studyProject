@@ -1,6 +1,6 @@
-%% %%Experiment script for Study Project
-%"The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials"
-%Two blocks containing 4 learning and 4 testing phases
+%% %%TEST Experiment script for Study Project:  WITHOUT INCORRECT GRAMMAR PART!!!
+%The Investigation of Artificial Grammar Learning Using Auditory Steady-State Evoked Potentials
+%One block containing 4 learning and 4 testing phases
 
 clear all; %clears all variables
 close all; %closes all windows
@@ -150,10 +150,9 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 %% specify the number of trials, sentences, phases
 % 40 sentences in learning phases
 numLearnTrials = 40;
-numLearnTrials = 3; %DEBUG
 % 4*16 sentences in test phase
 numTestSentPerTrial = 16;
-numTestSentPerTrial = 2; %DEBUG
+numTestSentPerTrial = 2;
 numTestTrials = 4* numTestSentPerTrial;
 
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file
@@ -228,28 +227,28 @@ testCount= 1; %reset testcount for next block
 showInstructions(win, instructions2);
 
 %% Begin Learning Phase 1 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0.302);
 
 %% Begin Test Phase 1 - incorrect grammar
 TP2 = testPhase(TP2, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0.302);
 
 %% Begin Test Phase 2 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0.302);
 
 %% Begin Test Phase 3 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0.302);
 
 %% Begin Test Phase 4 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
