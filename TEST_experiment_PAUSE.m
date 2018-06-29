@@ -152,7 +152,6 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 numLearnTrials = 40;
 % 4*16 sentences in test phase
 numTestSentPerTrial = 16;
-numTestSentPerTrial = 2;
 numTestTrials = 4* numTestSentPerTrial;
 
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file
