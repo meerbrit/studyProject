@@ -1,4 +1,4 @@
-function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
+function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle, pause_dur)
     DrawFormattedText(win, 'ZUHÖRPHASE', 'center', 'center', [0 0 0]); % Indicate beginning of first LP
     Screen(win, 'flip'); %Show text on screen
     KbWait; % waiting for keyboard 
@@ -23,6 +23,9 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         ppdev_mex('Write', 1, 0); %stops sending trigger, set back to 0
         PsychPortAudio('Start', pa_handle, 1); %starts sound immediatley
         PsychPortAudio('Stop', pa_handle, 1); %plays sound till the end of the sound file, make sure you do not have any silences at the end!!
+        if(pause_dur > 0)
+         WaitSecs(pause_dur); 
+        end 
         %A2
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_1_2),'_'))); %second syllable
         LP(k).s12_start=toc;
@@ -31,6 +34,9 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
+        if(pause_dur > 0)
+         WaitSecs(pause_dur); 
+        end     
         %X1
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_2_1),'_'))); %third syllable
         LP(k).s21_start=toc;
@@ -39,6 +45,9 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
+        if(pause_dur > 0)
+         WaitSecs(pause_dur); 
+        end
         %X2
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_2_2),'_'))); %fourth syllable
         LP(k).s22_start=toc;
@@ -47,6 +56,9 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
+        if(pause_dur > 0)
+         WaitSecs(pause_dur); 
+        end
         %B1
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_3_1),'_'))); %fifth syllable
         LP(k).s31_start=toc;
@@ -55,6 +67,9 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
+        if(pause_dur > 0)
+         WaitSecs(pause_dur); 
+        end
         %B2
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((LP(k).syll_3_2),'_'))); %sixth syllable
         LP(k).s32_start=toc;
@@ -63,4 +78,7 @@ function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle)
         ppdev_mex('Write', 1, 0);
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
+        if(pause_dur > 0)
+         WaitSecs(pause_dur); 
+        end
     end

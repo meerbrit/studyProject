@@ -6,6 +6,7 @@ clear all; %clears all variables
 close all; %closes all windows
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
+%audio_port = 5; %specifying audio port on experiment machine
 
 %mex ppdev_mex.c -v; %needed for triggers
 
@@ -119,32 +120,27 @@ pu_=resample(pu_,44100,22050);
 load sounds.mat;
 
 %% The initial prompt to enter all important participant info, correct grammar to learn and mode
-prompt={'Participant ID: ', 'Correct Grammar: ', 'Correct Grammar List:', 'Incorrect Grammar List:'}; %Enter participant ID (always two digits!!) and mode
-dlg_title='Participant Info';
+prompt={'Participant ID: ', 'Correct Grammar (1/2): ', 'Correct Grammar List (A/B):', 'Incorrect Grammar List (A/B):', 'Correct Button (L/R):'}; %Enter participant ID (always two digits!!) and mode
 num_lines=1;
-partinfo=inputdlg(prompt,dlg_title);
+partinfo=inputdlg(prompt,'Participant info');
+participant_ID = partinfo(1);
+c_grammar = char(partinfo(2)); %correct grammar
+ic_grammar = '2'; % incorrect grammar
+ic_grammar(c_grammar == ic_grammar) = '1'; %make sure to use other grammar as incorrect
+cg_mode = upper(char(partinfo(3))); % the set for the correct grammar
+icg_mode = upper(char(partinfo(4))); % the set for the incorrect grammar
+correct_btn = upper(char(partinfo(5))); % the button corresponding to correct sentence
 
 %% Create a directory for each participant to save the log files 
-mkdir(strcat('log/Sub_',char(partinfo(1)),'_', char(partinfo(2)),upper(char(partinfo(3))),'_',upper(char(partinfo(4))))); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
-log_folder = strcat('log/Sub_',char(partinfo(1)),'_',char(partinfo(2)),upper(char(partinfo(3))),'_',upper(char(partinfo(4))), '/'); %specifies where the log file (with the button presses) is going to be saved
+dir_name= strcat('log/Sub_',char(participant_ID),'_',c_grammar,cg_mode,'_',ic_grammar,icg_mode,'_', correct_btn);
+log_folder = strcat(dir_name , '/'); %specifies where the log file (with the button presses) is going to be saved
+mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 
-%% Define button mode
-if mod(char(partinfo(1)), 2) == 0  %even numbered participant ID
+%% Load button gfx
+if correct_btn == 'L'  %left
       TP_pic=imread('pics/left.png'); %load (left correct) button press cue
-      correct_btn = 'left';
-else %if part.no. is even
+else %right
     TP_pic=imread('pics/right.png'); %load (right correct) button press cue
-    correct_btn = 'right';
-end
-
-%% Grammar mode settings
-grammar= strcat(char(partinfo(2))); %defines which of the grammars should be learned correctly
-gram_mode=upper(strcat(char(partinfo(3)))); %defines the set for the correct grammar, make sure its capital
-ungram_mode=upper(strcat(char(partinfo(4)))); %defines the set for the incorrect grammar, make sure its capital
-% define which grammar is going to be ungrammatical 
-noGrammar = 2; %the ungrammatical grammar type
-if grammar == 2
-    noGrammar = 1;
 end
 
 %% load instruction file
@@ -155,7 +151,7 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 % 40 sentences in learning phases
 numLearnTrials = 40;
 numLearnTrials = 3; %DEBUG
-% 4*8 sentences in test phase
+% 4*16 sentences in test phase
 numTestSentPerTrial = 16;
 numTestSentPerTrial = 2; %DEBUG
 numTestTrials = 4* numTestSentPerTrial;
@@ -163,16 +159,14 @@ numTestTrials = 4* numTestSentPerTrial;
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file
 basic = 'basic'; %for machines not having excel installed
 %basic = '';
-LP1 = createStructureFromXLS(strcat('xls/G',num2str(grammar),'_LP_', gram_mode,'.xlsx'), basic, numLearnTrials);
-LP2 = createStructureFromXLS(strcat('xls/G',num2str(noGrammar),'_LP_', ungram_mode,'.xlsx'), basic, numLearnTrials);
+%correct grammar set
+LP1 = createStructureFromXLS(strcat('xls/correct/G',c_grammar,'_LP_', cg_mode,'.xlsx'), basic, numLearnTrials);
+%incorrect grammar set
+LP2 = createStructureFromXLS(strcat('xls/incorrect/G',ic_grammar,'_LP_', icg_mode,'.xlsx'), basic, numLearnTrials);
 
 %% %% Import lists for TEST PHASES
-%TODO: which test phase to use- balancing!
-testModeGram= 'A';
-testMode(gram_mode == 'A')='B';
-
-TP1 = createStructureFromXLS(strcat('xls/G',num2str(grammar),'_TP_', testMode,'.xlsx'), basic, numTestTrials);
-TP2 = createStructureFromXLS(strcat('xls/G',num2str(noGrammar),'_TP_', testMode,'.xlsx'), basic, numTestTrials);
+TP1 = createStructureFromXLS(strcat('xls/correct/G',c_grammar,'_TP_', cg_mode,'.xlsx'), basic, numTestTrials);
+TP2 = createStructureFromXLS(strcat('xls/incorrect/G',ic_grammar,'_TP_', icg_mode,'.xlsx'), basic, numTestTrials);
 
 %% %% Open the experiment screen
 tic; %starts measuring time (important if you want reaction times for the button presses)
@@ -202,7 +196,7 @@ pa_handle = PsychPortAudio('Open', audio_port, 1, [],[],1,[], [], []); %open aud
 showInstructions(win, instructions);
 
 %% Begin Learning Phase 1 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
@@ -210,21 +204,21 @@ TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 2 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 3 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 4 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
@@ -234,28 +228,28 @@ testCount= 1; %reset testcount for next block
 showInstructions(win, instructions2);
 
 %% Begin Learning Phase 1 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 1 - incorrect grammar
 TP2 = testPhase(TP2, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 2 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 3 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle);
+LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 4 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);

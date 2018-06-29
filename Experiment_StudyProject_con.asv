@@ -142,10 +142,10 @@ partinfo=inputdlg(prompt,dlg_title);
 
 %% Define modes depending on participant ID
 participant_ID =char(partinfo(1));
-c_grammar= num2str(Conditions(str2num(participant_ID)).cg);
+c_grammar= Conditions(str2num(participant_ID)).cg;
 cg_mode = upper(char(Conditions(str2num(participant_ID)).cg_mode));
 ic_grammar = '2';
-ic_grammar(c_grammar == ic_grammar) = '1';
+ic_grammar(c_grammar == ic_grammar) = 1;
 icg_mode = upper(char(Conditions(str2num(participant_ID)).icg_mode));
 btn_mode = Conditions(str2num(participant_ID)).btn_mode;
 
