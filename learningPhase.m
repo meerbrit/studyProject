@@ -1,5 +1,5 @@
 function [LP] = learningPhase(LP, numLearnTrials, win, pa_handle, pause_dur)
-    DrawFormattedText(win, 'ZUHÖRPHASE', 'center', 'center', [0 0 0]); % Indicate beginning of first LP
+    DrawFormattedText(win, 'ZUHOERPHASE', 'center', 'center', [0 0 0]); % Indicate beginning of first LP
     Screen(win, 'flip'); %Show text on screen
     KbWait; % waiting for keyboard 
     KbReleaseWait;
