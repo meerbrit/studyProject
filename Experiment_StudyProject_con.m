@@ -115,6 +115,12 @@ su_=transpose(psychwavread('wavs/su.wav'));
 su_=resample(su_,44100,22050);
 pu_=transpose(psychwavread('wavs/pu.wav'));
 pu_=resample(pu_,44100,22050);
+tu_=transpose(psychwavread('wavs/tu.wav'));
+tu_=resample(tu_,44100,22050);
+za_=transpose(psychwavread('wavs/za.wav'));
+za_=resample(za_,44100,22050);
+zo_=transpose(psychwavread('wavs/zo.wav'));
+zo_=resample(zo_,44100,22050);
 %}
 %%Load mat sound file (collection of all syllables)
 load sounds.mat;
@@ -151,10 +157,10 @@ btn_mode = Conditions(str2num(participant_ID)).btn_mode;
 
 %Set button mode and load correct gfx
 if btn_mode == 0  
-      [TP_pic,~,tp_alpha] =imread('pics/left.png'); %load (left correct) button press cue      
-      correct_btn = 'L';
+     TP_pic=imread('pics/left.png'); %load (left correct) button press cue     
+     correct_btn = 'L';
 else %
-    [TP_pic,~,tp_alpha] =imread('pics/right.png'); %load (right correct) button press cue
+    TP_pic=imread('pics/right.png'); %load (right correct) button press cue
     correct_btn = 'R';
 end
 

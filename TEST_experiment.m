@@ -115,6 +115,12 @@ su_=transpose(psychwavread('wavs/su.wav'));
 su_=resample(su_,44100,22050);
 pu_=transpose(psychwavread('wavs/pu.wav'));
 pu_=resample(pu_,44100,22050);
+tu_=transpose(psychwavread('wavs/tu.wav'));
+tu_=resample(tu_,44100,22050);
+za_=transpose(psychwavread('wavs/za.wav'));
+za_=resample(za_,44100,22050);
+zo_=transpose(psychwavread('wavs/zo.wav'));
+zo_=resample(zo_,44100,22050);
 %}
 %%Load mat sound file (collection of all syllables)
 load sounds.mat;
@@ -138,7 +144,7 @@ mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 
 %% Load button gfx
 if correct_btn == 'L'  %left
-      TP_pic=imread('pics/left.png'); %load (left correct) button press cue
+    TP_pic=imread('pics/left.png'); %load (left correct) button press cue
 else %right
     TP_pic=imread('pics/right.png'); %load (right correct) button press cue
 end
