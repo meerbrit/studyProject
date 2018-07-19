@@ -144,10 +144,11 @@ mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 
 %% Load button gfx
 if correct_btn == 'L'  %left
-    TP_pic=imread('pics/left.png'); %load (left correct) button press cue
+    [TP_pic, ~, alpha] =imread('pics/left.png'); %load (left correct) button press cue
 else %right
-    TP_pic=imread('pics/right.png'); %load (right correct) button press cue
+    [TP_pic, ~, alpha] =imread('pics/right.png'); %load (left correct) button press cue
 end
+TP_pic(:, :, 4) = alpha; %make sure we get the right alpha values
 
 %% load instruction file
 instructions=fileread('txt/instructions.txt'); %loads text from text file and saves it as variable instructions
@@ -182,6 +183,7 @@ Screen('Preference', 'TextRenderer', 1); %uses high definition text renderer
 Screen('TextSize', win, 40); %specifies font size
 Screen('TextFont', win, 'Arial'); %specifies font
 Screen('TextStyle', win, 0); %Specifies text color (0=black)
+Screen('BlendFunction', win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 
 texture1=Screen('MakeTexture', win, TP_pic); %converts the previously loaded image (lines 80-82) into a texture which can later be displayed on the screen
 

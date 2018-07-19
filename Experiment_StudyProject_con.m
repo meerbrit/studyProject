@@ -157,12 +157,13 @@ btn_mode = Conditions(str2num(participant_ID)).btn_mode;
 
 %Set button mode and load correct gfx
 if btn_mode == 0  
-     TP_pic=imread('pics/left.png'); %load (left correct) button press cue     
+    [TP_pic, ~, alpha] =imread('pics/left.png'); %load (left correct) button press cue    
      correct_btn = 'L';
 else %
-    TP_pic=imread('pics/right.png'); %load (right correct) button press cue
+    [TP_pic, ~, alpha] =imread('pics/right.png'); %load (left correct) button press cue
     correct_btn = 'R';
 end
+TP_pic(:, :, 4) = alpha; %make sure we get the right alpha values
 
 %% Create a directory for each participant to save the log files 
 dir_name= strcat('log/Sub_',participant_ID,'_',c_grammar,cg_mode,'_',ic_grammar,icg_mode,'_',correct_btn);
@@ -205,6 +206,7 @@ Screen('Preference', 'TextRenderer', 1); %uses high definition text renderer
 Screen('TextSize', win, 40); %specifies font size
 Screen('TextFont', win, 'Arial'); %specifies font
 Screen('TextStyle', win, 0); %Specifies text color (0=black)
+Screen('BlendFunction', win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA'); %use alpha channels for gfx
 
 texture1=Screen('MakeTexture', win, TP_pic); %converts the previously loaded image (lines 80-82) into a texture which can later be displayed on the screen
 
