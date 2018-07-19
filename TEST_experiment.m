@@ -228,38 +228,6 @@ LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
 
 %% Begin Test Phase 4 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
-testCount= 1; %reset testcount for next block
-
-%% Show screen in between the two blocks
-showInstructions(win, instructions2);
-
-%% Begin Learning Phase 1 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
-
-%% Begin Test Phase 1 - incorrect grammar
-TP2 = testPhase(TP2, testCount, numTestSentPerTrial, win, pa_handle,texture1);
-testCount = testCount+numTestSentPerTrial;
-
-%% Begin Learning Phase 2 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
-
-%% Begin Test Phase 2 - incorrect grammar
-TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
-testCount = testCount+numTestSentPerTrial;
-
-%% Begin Learning Phase 3 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
-
-%% Begin Test Phase 3 - incorrect grammar
-TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
-testCount = testCount+numTestSentPerTrial;
-
-%% Begin Learning Phase 4 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, 0);
-
-%% Begin Test Phase 4 - incorrect grammar
-TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
-clear testCount;
 
 %% End of the experiment
 PsychPortAudio('Close', pa_handle);% Close the audio device 
@@ -277,5 +245,3 @@ Screen('CloseAll'); %closes the screen
 %% Save the results in previously created folder
 save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
 save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP
-save(strcat(log_folder, 'LP2'), 'LP2'); 
-save(strcat(log_folder, 'TP2'), 'TP2');
