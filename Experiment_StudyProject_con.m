@@ -3,10 +3,10 @@
 %Two blocks containing 4 learning and 4 testing phases
 
 clear all; %clears all variables
-close all; %closes all windows
+close all; %clo   se        s all windows
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
-%audio_port = 5; %specifying audio port on experiment machine
+%audio_port = 11; %specifying audio port on experiment machine
 
 %mex ppdev_mex.c -v; %needed for triggers
 
@@ -128,11 +128,11 @@ load sounds.mat;
 %% Load the condition file for automatic mode selection
 %{
 [~,~,raw]=xlsread('xls/Conditions.xlsx', 1, '', 'basic');  
-    for k=1:30
+    for k=1:176
         Conditions(k).cg=cell2mat(raw(k,1)); %correct grammar
         Conditions(k).cg_mode=char(raw(k,2)); %correct grammar mode
-        Conditions(k).icg_mode=char(raw(k,4)); %incorrect grammar mode
-        Conditions(k).btn_mode=cell2mat(raw(k,6)); %btn mode: 0= left btn correct
+        Conditions(k).icg_mode=char(raw(k,3)); %incorrect grammar mode
+        Conditions(k).btn_mode=cell2mat(raw(k,4)); %btn mode: 0= left btn correct
     end
     clear raw;
     %}
@@ -153,15 +153,13 @@ cg_mode = upper(char(Conditions(str2num(participant_ID)).cg_mode));
 ic_grammar = '2';
 ic_grammar(c_grammar == ic_grammar) = '1';
 icg_mode = upper(char(Conditions(str2num(participant_ID)).icg_mode));
-btn_mode = Conditions(str2num(participant_ID)).btn_mode;
+correct_btn = upper(char(Conditions(str2num(participant_ID)).btn_mode));
 
 %Set button mode and load correct gfx
-if btn_mode == 0  
+if correct_btn == 'L'  
     [TP_pic, ~, alpha] =imread('pics/left.png'); %load (left correct) button press cue    
-     correct_btn = 'L';
 else %
     [TP_pic, ~, alpha] =imread('pics/right.png'); %load (left correct) button press cue
-    correct_btn = 'R';
 end
 TP_pic(:, :, 4) = alpha; %make sure we get the right alpha values
 
@@ -178,10 +176,8 @@ instructions2=fileread('txt/instructions2.txt');%load text for 2nd part of exper
 %% specify the number of trials, sentences, phases
 % 40 sentences in learning phases
 numLearnTrials = 40;
-numLearnTrials = 3; %DEBUG
 % 4*16 sentences in test phase
 numTestSentPerTrial = 16;
-numTestSentPerTrial = 2; %DEBUG
 numTestTrials = 4* numTestSentPerTrial;
 
 %% %% Import the lists for both LEARNING PHASES (items) from the Excel file
