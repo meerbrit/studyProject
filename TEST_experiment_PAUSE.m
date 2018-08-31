@@ -202,7 +202,7 @@ pa_handle = PsychPortAudio('Open', audio_port, 1, [],[],1,[], [], []); %open aud
 showInstructions(win, instructions);
 
 %% Begin Learning Phase 1 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0.1);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
@@ -210,21 +210,21 @@ TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0.1);
 
 %% Begin Test Phase 2 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0.1);
 
 %% Begin Test Phase 3 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0.1);
 
 %% Begin Test Phase 4 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
