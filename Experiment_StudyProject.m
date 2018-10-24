@@ -176,7 +176,8 @@ TP2 = createStructureFromXLS(strcat('xls/incorrect/G',ic_grammar,'_TP_', icg_mod
 %% %% Open the experiment screen
 tic; %starts measuring time (important if you want reaction times for the button presses)
 % define screen called "win" main screen window (0), color, on screen coordinates of window (full screen)
-win= Screen('OpenWindow',0,[158 158 158], [0 0 1960 1020]); 
+%win= Screen('OpenWindow',0,[158 158 158], [0 0 1960 1020]);
+win= Screen('OpenWindow',0,[158 158 158]);
 Priority(MaxPriority(win)); %window always in foreground
 HideCursor(); %hides cursor during experiment
 Screen('Preference', 'TextRenderer', 1); %uses high definition text renderer
