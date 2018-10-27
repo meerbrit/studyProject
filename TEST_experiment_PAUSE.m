@@ -7,7 +7,7 @@ close all; %closes all windows
 
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
-%audio_port = 5; %specifying audio port on experiment machine
+%audio_port = 10; %specifying audio port on experiment machine
 pause_duration = 0.1;
 
 %mex ppdev_mex.c -v; %needed for triggers
@@ -205,7 +205,7 @@ pa_handle = PsychPortAudio('Open', audio_port, 1, [],[],1,[], [], []); %open aud
 showInstructions(win, instructions);
 
 %% Begin Learning Phase 1 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
@@ -213,21 +213,21 @@ TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_2 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 2 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_3 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 3 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_4 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 4 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
@@ -246,5 +246,6 @@ WaitSecs(3);
 Screen('CloseAll'); %closes the screen
 
 %% Save the results in previously created folder
+LP1 = [LP1_1,LP1_2,LP1_3,LP1_4];  
 save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
 save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP

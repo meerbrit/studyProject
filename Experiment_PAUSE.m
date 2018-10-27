@@ -205,7 +205,7 @@ pa_handle = PsychPortAudio('Open', audio_port, 1, [],[],1,[], [], []); %open aud
 showInstructions(win, instructions);
 
 %% Begin Learning Phase 1 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
@@ -213,56 +213,66 @@ TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_2 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 2 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_3 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 3 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
+LP1_4 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 4 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount= 1; %reset testcount for next block
 
+%% Save the results of block 1 in previously created folder
+LP1 = [LP1_1,LP1_2,LP1_3,LP1_4];  
+save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
+save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP
+
 %% Show screen in between the two blocks
 showInstructions(win, instructions2);
 
 %% Begin Learning Phase 1 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
+LP2_1 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 1 - incorrect grammar
 TP2 = testPhase(TP2, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
+LP2_2 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 2 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
+LP2_3 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 3 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - incorrect grammar
-LP2 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
+LP2_4 = learningPhase(LP2, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 4 - incorrect grammar
 TP2 = testPhase(TP2, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 clear testCount;
+
+%% Save the results of block 2 in previously created folder
+LP2 = [LP2_1,LP2_2,LP2_3,LP2_4];  
+save(strcat(log_folder, 'LP2'), 'LP2');  %% save the log file for LP
+save(strcat(log_folder, 'TP2'), 'TP2');  %% save the log file for TP
 
 %% End of the experiment
 PsychPortAudio('Close', pa_handle);% Close the audio device 
@@ -276,9 +286,3 @@ KbReleaseWait;
 WaitSecs(3);
 
 Screen('CloseAll'); %closes the screen
-
-%% Save the results in previously created folder
-save(strcat(log_folder, 'LP1'), 'LP1');  %% save the log file for LP
-save(strcat(log_folder, 'TP1'), 'TP1');  %% save the log file for TP
-save(strcat(log_folder, 'LP2'), 'LP2'); 
-save(strcat(log_folder, 'TP2'), 'TP2');
