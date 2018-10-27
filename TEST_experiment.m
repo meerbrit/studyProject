@@ -4,9 +4,12 @@
 
 clear all; %clears all variables
 close all; %closes all windows
+
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
-%audio_port = 5; %specifying audio port on experiment machine
+%audio_port = 10; %specifying audio port on experiment machine
+
+pause_duration = 0;
 
 %mex ppdev_mex.c -v; %needed for triggers
 
@@ -180,7 +183,7 @@ win= Screen('OpenWindow',0,[158 158 158]);
 Priority(MaxPriority(win)); %window always in foreground
 HideCursor(); %hides cursor during experiment
 Screen('Preference', 'TextRenderer', 1); %uses high definition text renderer
-Screen('TextSize', win, 40); %specifies font size
+Screen('TextSize', win, 28); %specifies font size
 Screen('TextFont', win, 'Arial'); %specifies font
 Screen('TextStyle', win, 0); %Specifies text color (0=black)
 Screen('BlendFunction', win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
@@ -202,7 +205,7 @@ pa_handle = PsychPortAudio('Open', audio_port, 1, [],[],1,[], [], []); %open aud
 showInstructions(win, instructions);
 
 %% Begin Learning Phase 1 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
@@ -210,21 +213,21 @@ TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 2 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 3 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 4 - correct grammar
-LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, 0);
+LP1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 4 - correct grammar
 TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
