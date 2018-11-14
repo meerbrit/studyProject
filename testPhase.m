@@ -1,5 +1,5 @@
 function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
-    infoText= 'TESTPHASE \n \n Entscheide bitte jeweils per Knopfdruck, ob der Satz grammatikalisch korrekt oder inkorrekt ist';
+    infoText= 'TESTPHASE \n \n Entscheide bitte jeweils per Knopfdruck, ob der Satz grammatikalisch korrekt oder inkorrekt ist. \n\n Druecke einen Knopf um fortzufahren';
     DrawFormattedText(win, infoText, 'center', 'center', [0 0 0]); % Indicate beginning of first TP
     Screen(win, 'flip');
     KbWait; % waiting for keyboard 

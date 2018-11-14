@@ -8,6 +8,7 @@ close all; %closes all windows
 InitializePsychSound(0); %initializing sound driver
 audio_port = 7; %specifying audio port
 %audio_port = 10; %specifying audio port on experiment machine
+%Screen('Preference', 'SkipSyncTests', 1);
 
 pause_duration = 0;
 

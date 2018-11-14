@@ -5,6 +5,8 @@ The experiment is run via
 - Experiment_StudyProject.m
 - Or Experiment_PAUSE.m
 The Pause duration can be adjusted in either script by changing the pause variable
+--> make sure you are located in the correct directory when starting, otherwise the log file will be saved somewhere else
+--> make sure the cursor is not located in the script when starting as the responses will be written in the code.
 
 The short test scripts without the second ungrammatical condition are:
 - TEST_experiment.m
