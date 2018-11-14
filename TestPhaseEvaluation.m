@@ -118,9 +118,15 @@ Results(num_data+1).Miss = sum([Results(1:num_data).Miss]);
 Results(num_data+1).FalseAlarm = sum([Results(1:num_data).FalseAlarm]);
 Results(num_data+1).CorrectReject = sum([Results(1:num_data).CorrectReject]);
 Results(num_data+1).Accuracy = sum([Results(1:num_data).Accuracy])/num_data;
+final = struct2table(Results);
+mkdir('results');
+writetable(final,'results\testPhase.csv')
 
 clear G1_A;
 clear G1_B;
 clear G2_A;
 clear G2_B;
 clear num_data;
+clear final;
+clear coded_sourcePath;
+clear logs_sourcePath;
