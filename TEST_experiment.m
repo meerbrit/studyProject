@@ -11,6 +11,7 @@ audio_port = 7; %specifying audio port
 %Screen('Preference', 'SkipSyncTests', 1);
 
 pause_duration = 0;
+activeKeys=[KbName('x') KbName('c') KbName('v') KbName('b') KbName('n')];%keys usable as response in test phase
 
 %mex ppdev_mex.c -v; %needed for triggers
 
@@ -127,10 +128,10 @@ zo_=transpose(psychwavread('wavs/zo.wav'));
 zo_=resample(zo_,44100,22050);
 %}
 %%Load mat sound file (collection of all syllables)
-load sounds.mat;
+load wavs\sounds.mat;
 
 %% The initial prompt to enter all important participant info, correct grammar to learn and mode
-prompt={'Participant ID: ', 'Correct Grammar (1/2): ', 'Correct Grammar List (A/B):', 'Incorrect Grammar List (A/B):', 'Correct Button (L/R):'}; %Enter participant ID (always two digits!!) and mode
+prompt={'Participant ID: ', 'Correct Grammar (1/2): ', 'Correct Grammar List (A/B):', 'Incorrect Grammar List (A/B):'}; %Enter participant ID (always two digits!!) and mode
 num_lines=1;
 partinfo=inputdlg(prompt,'Participant info');
 participant_ID = partinfo(1);
@@ -139,19 +140,14 @@ ic_grammar = '2'; % incorrect grammar
 ic_grammar(c_grammar == ic_grammar) = '1'; %make sure to use other grammar as incorrect
 cg_mode = upper(char(partinfo(3))); % the set for the correct grammar
 icg_mode = upper(char(partinfo(4))); % the set for the incorrect grammar
-correct_btn = upper(char(partinfo(5))); % the button corresponding to correct sentence
 
 %% Create a directory for each participant to save the log files 
-dir_name= strcat('log/Sub_',char(participant_ID),'_',c_grammar,cg_mode,'_',ic_grammar,icg_mode,'_', correct_btn);
+dir_name= strcat('log/Sub_',char(participant_ID),'_',c_grammar,cg_mode,'_',ic_grammar,icg_mode);
 log_folder = strcat(dir_name , '/'); %specifies where the log file (with the button presses) is going to be saved
 mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 
 %% Load button gfx
-if correct_btn == 'L'  %left
-    [TP_pic, ~, alpha] =imread('pics/left.png'); %load (left correct) button press cue
-else %right
-    [TP_pic, ~, alpha] =imread('pics/right.png'); %load (left correct) button press cue
-end
+[TP_pic, ~, alpha] =imread('pics/testphaseS.png'); %load (left correct) button press cue
 TP_pic(:, :, 4) = alpha; %make sure we get the right alpha values
 
 %% load instruction file
@@ -210,28 +206,28 @@ LP1_1 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 1 - correct grammar
 testCount= 1;
-TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1);
+TP1 = testPhase(TP1, testCount, numTestSentPerTrial, win, pa_handle,texture1,activeKeys);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 2 - correct grammar
 LP1_2 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 2 - correct grammar
-TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1);
+TP1 = testPhase(TP1, testCount, (testCount+(numTestSentPerTrial-1)), win, pa_handle,texture1,activeKeys);
 testCount = testCount+numTestSentPerTrial;
 
 %% Begin Learning Phase 3 - correct grammar
 LP1_3 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 3 - correct grammar
-TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
-testCount = testCount+numTestSentPerTrial;
+TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1,activeKeys);
+testCount = testCount+numTestSentPerTrial;  
 
 %% Begin Learning Phase 4 - correct grammar
 LP1_4 = learningPhase(LP1, numLearnTrials, win, pa_handle, pause_duration);
 
 %% Begin Test Phase 4 - correct grammar
-TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1);
+TP1 = testPhase(TP1, testCount, (testCount+numTestSentPerTrial-1), win, pa_handle,texture1,activeKeys);
 
 %% End of the experiment
 PsychPortAudio('Close', pa_handle);% Close the audio device 

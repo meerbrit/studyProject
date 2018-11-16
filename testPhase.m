@@ -1,5 +1,5 @@
-function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
-    infoText= 'TESTPHASE \n \n Entscheide bitte jeweils per Knopfdruck, ob der Satz grammatikalisch korrekt oder inkorrekt ist. \n\n Druecke einen Knopf um fortzufahren';
+function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture, activeKeys)
+    infoText= 'TESTPHASE \n \n Entscheide bitte jeweils per Knopfdruck (1-5),\n ob der Satz grammatikalisch richtig oder falsch ist. \n\n Druecke einen Knopf um fortzufahren';
     DrawFormattedText(win, infoText, 'center', 'center', [0 0 0]); % Indicate beginning of first TP
     Screen(win, 'flip');
     KbWait; % waiting for keyboard 
@@ -67,21 +67,23 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture)
         PsychPortAudio('Start', pa_handle, 1);
         PsychPortAudio('Stop', pa_handle, 1);
 
-        Screen('DrawTexture', win, texture); % loads correct, incorrect sign on the screen to indicate button press
+        Screen('DrawTexture', win, texture); % loads testphase scalar gfx on the screen to indicate button press
         startRW = Screen(win,'flip'); %collect time of start response window
         trigger_4 = trigger_3_2+1; 
         ppdev_mex('Write', 1, trigger_4); %sends a seventh trigger for when button press cue appears
         WaitSecs(0.005);
         ppdev_mex('Write', 1, 0);
-
+        
+        RestrictKeysForKbCheck(activeKeys);%make sure only certain buttons allowes
         [secs, keyCode]=KbWait; %collecting time
         endRW=secs; %collect time of end response window (response)
         TP(t).RT=endRW-startRW; % Store the reaction time
         KBresponse=KbName(keyCode); %collect keypress response
         KbReleaseWait; % wait for key release
         TP(t).response=KBresponse; %collect the pressed key and store it in log file
-        clear startRW
-        clear endRW
+        clear startRW;
+        clear endRW;
+        RestrictKeysForKbCheck; %enable all keys again
         Screen(win,'flip'); %show response cue
         WaitSecs(0.5); %pause of 1000ms between items
         DrawFormattedText(win, '+', 'center', 'center', [0 0 0]); % Fixation cross
