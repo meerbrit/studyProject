@@ -83,7 +83,7 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture, activeKeys
         TP(t).response=KBresponse; %collect the pressed key and store it in log file
         clear startRW;
         clear endRW;
-        RestrictKeysForKbCheck; %enable all keys again
+        RestrictKeysForKbCheck([]); %enable all keys again
         Screen(win,'flip'); %show response cue
         WaitSecs(0.5); %pause of 1000ms between items
         DrawFormattedText(win, '+', 'center', 'center', [0 0 0]); % Fixation cross

@@ -147,7 +147,7 @@ log_folder = strcat(dir_name , '/'); %specifies where the log file (with the but
 mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 
 %% Load button gfx
-[TP_pic, ~, alpha] =imread('pics/testphaseS.png'); %load (left correct) button press cue
+[TP_pic, ~, alpha] =imread('pics/testphaseM.png'); %load (left correct) button press cue
 TP_pic(:, :, 4) = alpha; %make sure we get the right alpha values
 
 %% load instruction file
