@@ -128,21 +128,18 @@ zo_=transpose(psychwavread('wavs/zo.wav'));
 zo_=resample(zo_,44100,22050);
 %}
 %%Load mat sound file (collection of all syllables)
-load wavs\sounds.mat;
+load sounds.mat;
 
 %% The initial prompt to enter all important participant info, correct grammar to learn and mode
-prompt={'Participant ID: ', 'Correct Grammar (1/2): ', 'Correct Grammar List (A/B):', 'Incorrect Grammar List (A/B):'}; %Enter participant ID (always two digits!!) and mode
+prompt={'Participant ID: ', 'Correct Grammar (1/2): ', 'Correct Grammar List (A/B):'}; %Enter participant ID (always two digits!!) and mode
 num_lines=1;
 partinfo=inputdlg(prompt,'Participant info');
 participant_ID = partinfo(1);
 c_grammar = char(partinfo(2)); %correct grammar
-ic_grammar = '2'; % incorrect grammar
-ic_grammar(c_grammar == ic_grammar) = '1'; %make sure to use other grammar as incorrect
 cg_mode = upper(char(partinfo(3))); % the set for the correct grammar
-icg_mode = upper(char(partinfo(4))); % the set for the incorrect grammar
 
 %% Create a directory for each participant to save the log files 
-dir_name= strcat('log/Sub_',char(participant_ID),'_',c_grammar,cg_mode,'_',ic_grammar,icg_mode);
+dir_name= strcat('log/Sub_',char(participant_ID),'_',c_grammar,cg_mode);
 log_folder = strcat(dir_name , '/'); %specifies where the log file (with the button presses) is going to be saved
 mkdir(dir_name); %creates a directory for each participant, e.g. 'Sub_01_1A_2B'
 
@@ -166,12 +163,9 @@ basic = 'basic'; %for machines not having excel installed
 %basic = '';
 %correct grammar set
 LP1 = createStructureFromXLS(strcat('xls/correct/G',c_grammar,'_LP_', cg_mode,'.xlsx'), basic, numLearnTrials);
-%incorrect grammar set
-LP2 = createStructureFromXLS(strcat('xls/incorrect/G',ic_grammar,'_LP_', icg_mode,'.xlsx'), basic, numLearnTrials);
 
 %% %% Import lists for TEST PHASES
 TP1 = createStructureFromXLS(strcat('xls/correct/G',c_grammar,'_TP_', cg_mode,'.xlsx'), basic, numTestTrials);
-TP2 = createStructureFromXLS(strcat('xls/incorrect/G',ic_grammar,'_TP_', icg_mode,'.xlsx'), basic, numTestTrials);
 
 %% %% Open the experiment screen
 tic; %starts measuring time (important if you want reaction times for the button presses)

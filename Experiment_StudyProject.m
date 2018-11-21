@@ -129,7 +129,7 @@ zo_=transpose(psychwavread('wavs/zo.wav'));
 zo_=resample(zo_,44100,22050);
 %}
 %%Load mat sound file (collection of all syllables)
-load wavs\sounds.mat;
+load sounds.mat;
 
 %% The initial prompt to enter all important participant info, correct grammar to learn and mode
 prompt={'Participant ID: ', 'Correct Grammar (1/2): ', 'Correct Grammar List (A/B):', 'Incorrect Grammar List (A/B):'}; %Enter participant ID (always two digits!!) and mode

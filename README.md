@@ -18,5 +18,5 @@ Run --> AudioDeviceCheck.m to check which is the correct sound device
    - Run the file and see if sound was played
         - Adjust volume on amplifier (should be sticker marked) if necessary
         - Change ID until you hear sound
-!!Use the same ID in --> Experiment_StudyProject.m (or Experiment_PAUSE.m)!!
+!!Use the same ID in --> Experiment_StudyProject.m !!
 
