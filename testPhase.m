@@ -14,9 +14,9 @@ function [TP] = testPhase(TP, startT, stopT, win, pa_handle, texture, activeKeys
         trigger_1_1=TP(t).trig_1_1;
         trigger_1_2=TP(t).trig_1_2;
         trigger_2_1=TP(t).trig_2_1;
-        trigger_2_2=TP(t).trig_2_1;
+        trigger_2_2=TP(t).trig_2_2;
         trigger_3_1=TP(t).trig_3_1;
-        trigger_3_2=TP(t).trig_3_1;
+        trigger_3_2=TP(t).trig_3_2;
 
         %A1
         PsychPortAudio('FillBuffer', pa_handle, evalin('base',strcat((TP(t).syll_1_1),'_'))); % loads data into buffer, first syllable
