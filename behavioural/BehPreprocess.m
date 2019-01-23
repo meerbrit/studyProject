@@ -76,7 +76,7 @@ for i=1:num_data
         Overview(k).Answer =answers(idx);
         resp = exchangeResponse(TP1(idx).response);
         Overview(k).Response =resp;
-        Overview(k).RT =TP1(idx).RT;
+        Overview(k).RT =TP1(idx).RT;      
         idx=idx+1;
     end
     
@@ -92,20 +92,27 @@ for i=1:num_data
     %check every response
     for j=1:num_responses
         response=exchangeResponse(TP1(j).response);
+        idx=order+j-1;
         if answers(j) == "correct"
             if ismember(response,correct_resp(1,:))
+                Overview(idx).Result ='HIT';
                 hit = hit+1;
             elseif ismember(response,incorrect_resp(1,:))
+                Overview(idx).Result ='MISS';
                 miss = miss+1;
             else
+                Overview(idx).Result ='-';
                 dunno = dunno+1;
             end
         elseif answers(j) == "incorrect"
             if ismember(response,correct_resp(1,:))
+                Overview(idx).Result ='FALSE ALARM';
                 falseAlarm = falseAlarm+1;
             elseif ismember(response,incorrect_resp(1,:))
+                Overview(idx).Result ='CORRECT REJECT';
                 correctReject = correctReject+1;
             else
+                Overview(idx).Result ='-';
                 dunno = dunno+1;
             end
         end
